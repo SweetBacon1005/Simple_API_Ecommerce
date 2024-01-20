@@ -1,0 +1,35 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SweetBacon1005/Random_Web.git"
+  },
+  "keywords": [
+    "trung",
+    "web",
+    "vo",
+    "van"
+  ],
+  "author": "SweetBacon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SweetBacon1005/Random_Web/issues"
+  },
+  "homepage": "https://github.com/SweetBacon1005/Random_Web#readme",
+  "dependencies": {
+    "dotenv": "^16.3.2",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
