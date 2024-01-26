@@ -1,12 +1,10 @@
 const express = require('express');
-const db = require('./config/db');
+const db = require('./configs/db');
 const app = express();
 const port = 3000;
+const route = require('./routes');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 db.connect();
-app.get('/',(req,res) => {
-    res.send('Hello World');
-})
-app.listen(port,()=>{
-    console.log(`Server is listening on port ${port}`);
-})
-
+route(app);
+app.listen(port, () => console.log(`Server running on port ${port}`));
