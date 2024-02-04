@@ -89,5 +89,71 @@ class ProductController {
             })
         }
     }
+    async update(req, res) {
+        const {id} = req.params;
+        const {name, price, category, description} = req.body;
+        if (!name || !price || !category || !description) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing required fields',
+            })
+        }
+        try {
+            const product = await Product.findById(id);
+            if (!product) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Product not found',
+                })
+            }
+            product.name = name;
+            product.price = price;
+            product.category = category;
+            product.description = description;
+            await product.save();
+            return res.status(200).json({
+                success: true,
+                message: 'Product updated successfully',
+                product,
+            })
+        }
+        catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: 'Internal server error',
+                error: error.message,
+            })
+        }
+    }
+    async delete(req, res) {
+        const {id} = req.params;
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing product ID',
+            })
+        }
+        try {
+            const product = await Product.findById(id);
+            if (!product) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Product not found',
+                })
+            }
+            await product.remove();
+            return res.status(200).json({
+                success: true,
+                message: 'Product deleted successfully',
+            })
+        }
+        catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: 'Internal server error',
+                error: error.message,
+            })
+        }
+    }
 }
 module.exports = new ProductController();
