@@ -1,12 +1,13 @@
 const mongoose = require("mongoose")
+const dotenv = require('dotenv')
+dotenv.config()
 async function connect() {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/ltw_db', {
+        await mongoose.connect(process.env.DB_CONNECT, {
         })
         console.log('Connect successfully!!!')
     }
     catch (error) {
-        console.log(error)
         console.log('Connect failure!!!')
     }
 }

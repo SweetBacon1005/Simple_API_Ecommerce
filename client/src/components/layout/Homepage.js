@@ -1,8 +1,7 @@
 import {Navigate} from 'react-router-dom';
-
 const Homepage = () => {
     return (
-        <Navigate to="/login" />
+        <h1>a</h1>
     );
     }
 export default Homepage;
