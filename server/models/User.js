@@ -24,10 +24,6 @@ const UserSchema = new Schema(
     phone: {
       type: String,
     },
-    history: {
-      type: Array,
-      default: [],
-    },
     passwordResetToken: {
       type: String,
     },
@@ -35,11 +31,11 @@ const UserSchema = new Schema(
       type: Date,
     },
     passwordResetTime: {
-        type: Date,
+      type: Date,
     },
     passwordResetVerified: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
   },
   {

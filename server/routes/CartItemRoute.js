@@ -1,8 +1,15 @@
-const express = require('express')
-const router = express.Router()
-const { createCartItem, getCartItems, updateCartItem } = require('../controllers/CartItemController')
-const { authenticate } = require('../middlewares/auth')
-router.put('/:id', authenticate, updateCartItem)
-router.post('/', authenticate, createCartItem)
-router.get('/', authenticate, getCartItems)
-module.exports = router
+const express = require("express");
+const router = express.Router();
+const { allowTo } = require("../controllers/AuthController");
+const {
+  createCartItem,
+  getCartItems,
+  updateCartItem,
+  deleteCartItem,
+} = require("../controllers/CartItemController");
+router.route("/").get(getCartItems).post(allowTo("user"), createCartItem);
+router
+  .route("/:id")
+  .put(allowTo("user"), updateCartItem)
+  .delete(allowTo("user"), deleteCartItem);
+module.exports = router;

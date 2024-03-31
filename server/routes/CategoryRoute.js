@@ -1,9 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { create, getAll, getById, update, deleteById } = require('../controllers/CategoryController');
-router.delete('/:id', deleteById);
-router.get('/:id', getById);
-router.put('/:id', update);
-router.post('/', create);
-router.get('/', getAll);
+const { allowTo, protect } = require("../controllers/AuthController");
+const {
+  createCategory,
+  getAllCategory,
+  getByIdCategory,
+  updateCategory,
+  deleteByIdCategory,
+} = require("../controllers/CategoryController");
+router.route("/").get(getAllCategory).post(protect,allowTo("admin"), createCategory);
+router
+  .route("/:id")
+  .get(getByIdCategory)
+  .put(protect,allowTo("admin"), updateCategory)
+  .delete(protect,allowTo("admin"), deleteByIdCategory);
 module.exports = router;

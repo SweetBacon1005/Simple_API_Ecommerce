@@ -6,6 +6,18 @@ const OrderSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    cartItems: [
+      {
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: {
+          type: Number,
+          require: true,
+        },
+      },
+    ],
     amount: {
       type: Number,
       require: true,
@@ -14,26 +26,25 @@ const OrderSchema = new Schema(
       type: String,
       require: true,
     },
-    status: {
-      type: String,
-      default: "Not processed",
-      enum: [
-        "Not processed",
-        "Processing",
-        "Shipped",
-        "Delivered",
-        "Cancelled",
-      ],
-    },
     phone: {
       type: String,
       require: true,
     },
     paymentMethod: {
-        type: String,
-        enum: ["COD", "Credit Card"],
-        default: "COD",
-    }
+      type: String,
+      enum: ["COD", "Credit Card"],
+      default: "COD",
+    },
+    isPaid: {
+      type: Boolean,
+      default: false,
+    },
+    isDelivered: {
+      type: Boolean,
+      default: false,
+    },
+    paidAt: Date,
+    deliveredAt: Date,
   },
   {
     timestamps: true,
