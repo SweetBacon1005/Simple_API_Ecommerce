@@ -5,6 +5,7 @@ const OrderSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      require: true,
     },
     cartItems: [
       {
@@ -18,7 +19,7 @@ const OrderSchema = new Schema(
         },
       },
     ],
-    amount: {
+    totalOrderPrice: {
       type: Number,
       require: true,
     },
