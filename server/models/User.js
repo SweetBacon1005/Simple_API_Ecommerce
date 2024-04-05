@@ -33,9 +33,8 @@ const UserSchema = new Schema(
     passwordResetTime: {
       type: Date,
     },
-    passwordResetVerified: {
-      type: Boolean,
-      default: false,
+    passwordChangedAt: {
+      type: Date,
     },
   },
   {
