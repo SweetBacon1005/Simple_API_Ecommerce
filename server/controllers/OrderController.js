@@ -1,24 +1,33 @@
-const CartItem = require("../models/CartItem");
+const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const User = require("../models/User");
 const Order = require("../models/Order");
 
 const createOrder = async (req, res) => {
-  const cartItem = await CartItem.findById(req.params.id);
-  const order = await Order.create({
-    user: req.user._id,
-    cartItems: cartItem.cartItems,
-    totalCartPrice: cartItem.totalCartPrice,
-    address: req.body.address,
-  });
-  const data = await order.save();
-  await CartItem.findByIdAndDelete(req.params.id);
-  return res.status(201).json({
-    success: true,
-    message: "Order created",
-    data,
-  });
+  try {
+    const cart = await Cart.findById(req.params.cartId);
+    const order = await Order.create({
+      user: req.user._id,
+      cartItems: cart.cartItems,
+      totalCartPrice: cart.totalCartPrice,
+      address: req.body.address,
+      phone: req.body.phone,
+    });
+    await Cart.findByIdAndDelete(req.params.cartId);
+    return res.status(201).json({
+      success: true,
+      order,
+    });
+  }
+  catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: err.message,
+    });
+  }
 };
+
 const getAllOrder = async (req, res) => {
   try {
     const orders = await Order.find();
@@ -34,10 +43,10 @@ const getAllOrder = async (req, res) => {
     });
   }
 };
+
 const getOrderById = async (req, res) => {
-  const { id } = req.params;
   try {
-    const order = await Order.findById(id);
+    const order = await Order.findById(req.params.id);
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -56,10 +65,10 @@ const getOrderById = async (req, res) => {
     });
   }
 };
+
 const updateOrderToPaid = async (req, res) => {
-  const { id } = req.params;
   try {
-    const order = await Order.findById(id);
+    const order = await Order.findById(req.params.id);
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -83,10 +92,10 @@ const updateOrderToPaid = async (req, res) => {
     });
   }
 };
+
 const updateOrderToDelivered = async (req, res) => {
-  const { id } = req.params;
   try {
-    const order = await Order.findById(id);
+    const order = await Order.findById(req.params.id);
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -109,34 +118,11 @@ const updateOrderToDelivered = async (req, res) => {
     });
   }
 };
-const deleteOrder = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const order = await Order.findById(id);
-    if (!order) {
-      return res.status(404).json({
-        success: false,
-        message: "Order not found",
-      });
-    }
-    await order.remove();
-    return res.status(200).json({
-      success: true,
-      message: "Order deleted",
-    });
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      error: err.message,
-    });
-  }
-};
+
 module.exports = {
   createOrder,
   getAllOrder,
   getOrderById,
   updateOrderToPaid,
   updateOrderToDelivered,
-  deleteOrder,
 };
